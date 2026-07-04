@@ -1,11 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Mummy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
-<body>
-    
+<style>
+    .heart-beat {
+        animation: heartbeat 1.2s infinite;
+        display: inline-block;
+        /* filter: drop-shadow(0 0 8px rgba(255, 0, 80, 0.8)); */
+    }
+
+    @keyframes heartbeat {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        15% {
+            transform: scale(1.35);
+        }
+
+        30% {
+            transform: scale(1);
+        }
+
+        45% {
+            transform: scale(1.35);
+        }
+
+        60% {
+            transform: scale(1);
+        }
+    }
+</style>
+<body class="overflow-hidden">
+
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover -z-20">
+        <source src="145491-787039562.mp4" type="video/mp4">
+    </video>
+
+    <!-- Dark Overlay -->
+    <div class="fixed inset-0 bg-black/40 -z-10"></div>
+
+    <main class="flex justify-center items-center min-h-screen px-4">
+        <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl max-w-xl">
+            <div class="text-2xl font-bold text-rose-500 font">
+                <span>HAPPY BIRTHDAY MY LOVE</span>
+                <span><i class="fa-regular fa-heart heart-beat"></i></span>
+            </div>
+            <div class="text-md font-semibold mt-5">
+                <span id="type"></span>
+            </div>
+            <button id="playBtn"
+                class="mt-6 bg-white text-rose-600 font-semibold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition">
+                ❤️ Click for Your Birthday Surprise ❤️
+            </button>
+
+            <audio id="surpriseAudio">
+                <source src="Recording.m4a" type="audio/mp4">
+            </audio>
+            <audio id="Audio">
+                <source src="birthday_audio.mp3" type="audio/mp4">
+            </audio>
+        </div>
+    </main>
+    <script src="index.js"></script>
 </body>
 </html>
