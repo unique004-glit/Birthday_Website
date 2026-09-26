@@ -1,55 +1,39 @@
-const typeElement = document.getElementById("type");
-const playBtn = document.getElementById("playBtn");
+const slides = document.getElementById('slides');
+const items = [...document.querySelectorAll('.slide')];
+const dots = document.getElementById('dots');
+const previous = document.getElementById('previous');
+const next = document.getElementById('next');
+const playBtn = document.getElementById('playBtn');
+const birthdayAudio = document.getElementById('birthdayAudio');
+let current = 0;
+let autoplay;
+let touchStart = 0;
 
-const introAudio = document.getElementById("Audio");
-const surpriseAudio = document.getElementById("surpriseAudio");
+items.forEach((_, index) => {
+  const dot = document.createElement('button');
+  dot.className = `dot${index === 0 ? ' active' : ''}`;
+  dot.setAttribute('aria-label', `Show photo ${index + 1}`);
+  dot.addEventListener('click', () => showSlide(index));
+  dots.append(dot);
+});
 
-const messages = [
-    " Happy Birthday, Mummy",
-    "Today is your special day, and I want to take a moment to thank you for everything you have done for me.",
-    "Thank you for your love, your care, your sacrifices, and your endless support. You have always been there for me through good times and difficult times.",
-    "Your strength inspires me, your kindness comforts me, and your love means more to me than words can express.",
-    "I pray that this new year of your life brings you joy, good health, peace, and countless blessings.",
-    "You deserve all the happiness in the world.",
-    "Happy Birthday, Mummy. I love you very much."
-
-];
-
-let messageIndex = 0;
-let charIndex = 0;
-
-function typeWriter() {
-    if (charIndex < messages[messageIndex].length) {
-        typeElement.textContent += messages[messageIndex].charAt(charIndex);
-        charIndex++;
-        setTimeout(typeWriter, 60);
-    } else {
-        setTimeout(() => {
-            typeElement.textContent = "";
-            charIndex = 0;
-            messageIndex++;
-
-            if (messageIndex < messages.length) {
-                typeWriter();
-            }
-        }, 600);
-    }
+function showSlide(index) {
+  current = (index + items.length) % items.length;
+  slides.style.transform = `translateX(-${current * 100}%)`;
+  [...dots.children].forEach((dot, dotIndex) => dot.classList.toggle('active', dotIndex === current));
 }
+function resetAutoplay() { clearInterval(autoplay); autoplay = setInterval(() => showSlide(current + 1), 5000); }
+previous.addEventListener('click', () => { showSlide(current - 1); resetAutoplay(); });
+next.addEventListener('click', () => { showSlide(current + 1); resetAutoplay(); });
+slides.addEventListener('touchstart', event => { touchStart = event.changedTouches[0].screenX; }, { passive: true });
+slides.addEventListener('touchend', event => { const distance = event.changedTouches[0].screenX - touchStart; if (Math.abs(distance) > 45) { showSlide(current + (distance < 0 ? 1 : -1)); resetAutoplay(); } }, { passive: true });
+resetAutoplay();
 
-playBtn.addEventListener("click", () => {
-
-    // Start typing
-    typeWriter();
-
-    // Start first audio
-    introAudio.play();
-
-    // Update button
-    playBtn.textContent = "🎶 Playing...";
+playBtn.addEventListener('click', async () => {
+  try {
+    await birthdayAudio.play();
+    playBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i><span>Birthday Song Playing</span>';
     playBtn.disabled = true;
+  } catch { playBtn.querySelector('span').textContent = 'Tap again to play the song'; }
 });
-
-// When first audio ends, start second audio
-introAudio.addEventListener("ended", () => {
-    surpriseAudio.play();
-});
+birthdayAudio.addEventListener('ended', () => { playBtn.innerHTML = '<i class="fa-solid fa-music"></i><span>Play Your Birthday Song</span>'; playBtn.disabled = false; });

@@ -2,75 +2,338 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Mummy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Queen Mother</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --wine: #7a1026;
+      --rose: #c92754;
+      --gold: #f4c86a;
+      --ink: #2a0c15;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fff9f2;
+      font-family: Montserrat, sans-serif;
+      background: #210710;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: linear-gradient(135deg, rgba(34, 4, 15, .88), rgba(111, 12, 39, .72)), url('images/queen-mother-royal.jpeg') center/cover;
+    }
+
+    .background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 15% 15%, rgba(244, 200, 106, .28), transparent 30%), radial-gradient(circle at 90% 85%, rgba(201, 39, 84, .34), transparent 36%);
+    }
+
+    .page {
+      width: min(1120px, 94%);
+      margin: auto;
+      padding: 36px 0 46px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      font-size: .7rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    h1 {
+      font: 700 clamp(2.35rem, 7vw, 5.2rem)/.94 'Playfair Display', serif;
+      text-align: center;
+      margin: 9px 0 5px;
+      text-shadow: 0 3px 22px rgba(0, 0, 0, .35);
+    }
+
+    .queen {
+      font: clamp(2.1rem, 6vw, 4.5rem)/.9 'Great Vibes', cursive;
+      color: var(--gold);
+      display: block;
+      margin: 6px 0 25px;
+    }
+
+    .card {
+      background: rgba(255, 250, 245, .94);
+      color: var(--ink);
+      border: 1px solid rgba(244, 200, 106, .7);
+      border-radius: 24px;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, .36);
+      overflow: hidden;
+    }
+
+    .gallery {
+      position: relative;
+      background: #330914;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+
+    .slides {
+      height: 100%;
+      display: flex;
+      transition: transform .65s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center 28%;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 35% 0 0;
+      background: linear-gradient(transparent, rgba(24, 2, 8, .7));
+    }
+
+    .caption {
+      position: absolute;
+      z-index: 1;
+      bottom: 22px;
+      left: 26px;
+      right: 26px;
+      color: white;
+      font: 600 clamp(1.05rem, 3vw, 1.6rem) 'Playfair Display', serif;
+      text-shadow: 0 2px 12px #000;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      color: var(--wine);
+      background: rgba(255, 250, 245, .9);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: .2s;
+      z-index: 2;
+    }
+
+    .arrow:hover {
+      background: var(--gold);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .previous {
+      left: 16px;
+    }
+
+    .next {
+      right: 16px;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 2;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border: 0;
+      padding: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .58);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .dot.active {
+      width: 26px;
+      border-radius: 8px;
+      background: var(--gold);
+    }
+
+    .message {
+      padding: clamp(25px, 5vw, 50px);
+      text-align: center;
+    }
+
+    .message h2 {
+      color: var(--wine);
+      font: 700 clamp(1.7rem, 4vw, 2.65rem) 'Playfair Display', serif;
+      margin: 0 0 15px;
+    }
+
+    .message p {
+      font-size: clamp(.95rem, 2vw, 1.08rem);
+      line-height: 1.75;
+      max-width: 800px;
+      margin: 0 auto 16px;
+    }
+
+    .highlight {
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    .signature {
+      color: var(--wine);
+      font: 2.1rem 'Great Vibes', cursive;
+      margin: 23px 0 0;
+    }
+
+    .surprise {
+      display: inline-flex;
+      gap: 9px;
+      align-items: center;
+      margin-top: 24px;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 23px;
+      cursor: pointer;
+      color: white;
+      font: 700 .9rem Montserrat, sans-serif;
+      background: linear-gradient(135deg, #9d193b, #d24770);
+      box-shadow: 0 8px 22px rgba(160, 23, 60, .3);
+      transition: .2s;
+    }
+
+    .surprise:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(160, 23, 60, .42);
+    }
+
+    .surprise:disabled {
+      opacity: .75;
+      cursor: default;
+      transform: none;
+    }
+
+    .floating {
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+      color: var(--gold);
+      opacity: .65;
+      animation: float 7s ease-in-out infinite;
+    }
+
+    .one {
+      top: 12%;
+      left: 7%;
+    }
+
+    .two {
+      top: 70%;
+      right: 8%;
+      animation-delay: -3s;
+    }
+
+    @keyframes float {
+      50% {
+        transform: translateY(-16px) rotate(9deg);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        padding-top: 28px;
+      }
+
+      .gallery {
+        aspect-ratio: 4 / 5;
+      }
+
+      .slide img {
+        object-position: center;
+      }
+
+      .arrow {
+        width: 38px;
+        height: 38px;
+      }
+
+      .caption {
+        left: 18px;
+        bottom: 25px;
+      }
+    }
+  </style>
 </head>
-<style>
-    .heart-beat {
-        animation: heartbeat 1.2s infinite;
-        display: inline-block;
-        /* filter: drop-shadow(0 0 8px rgba(255, 0, 80, 0.8)); */
-    }
 
-    @keyframes heartbeat {
-
-        0%,
-        100% {
-            transform: scale(1);
-        }
-
-        15% {
-            transform: scale(1.35);
-        }
-
-        30% {
-            transform: scale(1);
-        }
-
-        45% {
-            transform: scale(1.35);
-        }
-
-        60% {
-            transform: scale(1);
-        }
-    }
-</style>
-<body class="overflow-hidden">
-
-    <!-- Video Background -->
-    <video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover -z-20">
-        <source src="145491-787039562.mp4" type="video/mp4">
-    </video>
-
-    <!-- Dark Overlay -->
-    <div class="fixed inset-0 bg-black/40 -z-10"></div>
-
-    <main class="flex justify-center items-center min-h-screen px-4">
-        <div class="bg-white/90 backdrop-blur-lg rounded-2xl p-8 shadow-2xl max-w-xl">
-            <div class="text-2xl font-bold text-rose-500 font">
-                <span>HAPPY BIRTHDAY MY LOVE</span>
-                <span><i class="fa-regular fa-heart heart-beat"></i></span>
-            </div>
-            <div class="text-md font-semibold mt-5">
-                <span id="type"></span>
-            </div>
-            <button id="playBtn"
-                class="mt-6 bg-white text-rose-600 font-semibold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition">
-                ❤️ Click for Your Birthday Surprise ❤️
-            </button>
-
-            <audio id="surpriseAudio">
-                <source src="Recording.m4a" type="audio/mp4">
-            </audio>
-            <audio id="Audio">
-                <source src="birthday_audio.mp3" type="audio/mp4">
-            </audio>
+<body>
+  <div class="background"></div><i class="fa-solid fa-crown floating one"></i><i
+    class="fa-solid fa-heart floating two"></i>
+  <main class="page">
+    <div class="eyebrow">A celebration of grace, strength &amp; love</div>
+    <h1>Happy Birthday <span class="queen">Queen Mother</span></h1>
+    <section class="card">
+      <div class="gallery" aria-label="Queen Mother's photo gallery">
+        <div class="slides" id="slides">
+          <figure class="slide"><img src="images/queen-mother-royal.jpeg" alt="Queen Mother in royal red attire">
+            <figcaption class="caption">A true queen — radiant in every season.</figcaption>
+          </figure>
+          <figure class="slide"><img src="images/queen-mother-blue.jpeg" alt="Queen Mother in elegant blue attire">
+            <figcaption class="caption">Grace, poise, and a heart full of love.</figcaption>
+          </figure>
+          <figure class="slide"><img src="images/queen-mother-white.jpeg" alt="Queen Mother in elegant white attire">
+            <figcaption class="caption">Beautiful inside and out.</figcaption>
+          </figure>
         </div>
-    </main>
-    <script src="index.js"></script>
+        <button class="arrow previous" id="previous" aria-label="Previous photo"><i
+            class="fa-solid fa-chevron-left"></i></button><button class="arrow next" id="next"
+          aria-label="Next photo"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="dots" id="dots" aria-label="Gallery navigation"></div>
+      </div>
+      <div class="message">
+        <h2>To our dearest Mummy</h2>
+        <p>Today, we celebrate the extraordinary woman whose love has been our shelter, whose prayers have carried us,
+          and whose strength continues to inspire us every day.</p>
+        <p>Thank you, Momma, for every sacrifice, every word of wisdom, every warm embrace, and every quiet act of love.
+          <span class="highlight">Your care has shaped our lives in ways words can never fully express.</span></p>
+        <p>May this new year bring you overflowing joy, sound health, peace of mind, favour, and every beautiful
+          blessing your heart desires. You deserve to be celebrated today and always.</p>
+        <p class="signature">With all our love, always. <i class="fa-solid fa-heart"></i></p>
+        <button class="surprise" id="playBtn"><i class="fa-solid fa-music"></i><span>Play Your Birthday
+            Song</span></button>
+        <audio id="birthdayAudio">
+          <source src="birthday_audio.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </section>
+  </main>
+  <script src="index.js"></script>
 </body>
+
 </html>
